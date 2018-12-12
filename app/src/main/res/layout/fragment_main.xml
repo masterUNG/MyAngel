@@ -41,6 +41,8 @@
 
         <!--Register-->
         <TextView
+            android:clickable="true"
+            android:id="@+id/txtRegister"
             android:layout_marginTop="10dp"
             android:textSize="@dimen/h2"
             android:layout_gravity="center_horizontal"
