@@ -2,6 +2,7 @@ package masterung.th.in.androidthai.myangel;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +13,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 /**
@@ -56,7 +62,7 @@ public class RegisterFragment extends Fragment {
         String emailString = emailEditText.getText().toString().trim();
         String passwordString = passwordEditText.getText().toString().trim();
 
-        MyAlert myAlert = new MyAlert(getActivity());
+        final MyAlert myAlert = new MyAlert(getActivity());
 
 //        Check Space
         if (nameString.isEmpty() || emailString.isEmpty() || passwordString.isEmpty()) {
@@ -64,6 +70,27 @@ public class RegisterFragment extends Fragment {
             myAlert.normalDialog("Have Space", "Please Fill Every Blank");
         } else {
 //            No Space
+            final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+            firebaseAuth.createUserWithEmailAndPassword(emailString, passwordString)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+
+                            if (task.isSuccessful()) {
+
+                                String uidString = firebaseAuth.getUid();
+
+
+                            } else {
+                                myAlert.normalDialog("Cannot Register",
+                                        task.getException().toString());
+                            }
+
+                        }
+                    });
+
+
+
 
         } // of
 
