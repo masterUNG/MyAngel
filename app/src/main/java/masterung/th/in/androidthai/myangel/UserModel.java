@@ -1,6 +1,9 @@
 package masterung.th.in.androidthai.myangel;
 
-public class UserModel {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class UserModel implements Parcelable {
 
     private String uidString, nameString, messageString;
 
@@ -13,6 +16,24 @@ public class UserModel {
         this.messageString = messageString;
     }   // Constructor Setter Type
 
+
+    protected UserModel(Parcel in) {
+        uidString = in.readString();
+        nameString = in.readString();
+        messageString = in.readString();
+    }
+
+    public static final Creator<UserModel> CREATOR = new Creator<UserModel>() {
+        @Override
+        public UserModel createFromParcel(Parcel in) {
+            return new UserModel(in);
+        }
+
+        @Override
+        public UserModel[] newArray(int size) {
+            return new UserModel[size];
+        }
+    };
 
     public String getUidString() {
         return uidString;
@@ -36,5 +57,17 @@ public class UserModel {
 
     public void setMessageString(String messageString) {
         this.messageString = messageString;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(uidString);
+        dest.writeString(nameString);
+        dest.writeString(messageString);
     }
 }
